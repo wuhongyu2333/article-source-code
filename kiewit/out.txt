@@ -1,0 +1,2388 @@
+
+ ANSYS Multiphysics                                
+
+
+ *------------------------------------------------------------------*
+ |                                                                  |
+ |   W E L C O M E   T O   T H E   A N S Y S (R)  P R O G R A M     |
+ |                                                                  |
+ *------------------------------------------------------------------*
+
+
+
+
+ ***************************************************************
+ *                  ANSYS 15.0 LEGAL NOTICES                   *
+ ***************************************************************
+ *                                                             *
+ * Copyright 2013 SAS IP, Inc.  All rights reserved.           *
+ * Unauthorized use, distribution or duplication is            *
+ * prohibited.                                                 *
+ *                                                             *
+ * Ansys is a registered trademark of ANSYS, Inc. or its       *
+ * subsidiaries in the United States or other countries.       *
+ * See the ANSYS, Inc. online documentation or the ANSYS, Inc. *
+ * documentation CD or online help for the complete Legal      *
+ * Notice.                                                     *
+ *                                                             *
+ ***************************************************************
+ *                                                             *
+ * THIS ANSYS SOFTWARE PRODUCT AND PROGRAM DOCUMENTATION       *
+ * INCLUDE TRADE SECRETS AND CONFIDENTIAL AND PROPRIETARY      *
+ * PRODUCTS OF ANSYS, INC., ITS SUBSIDIARIES, OR LICENSORS.    *
+ * The software products and documentation are furnished by    *
+ * ANSYS, Inc. or its subsidiaries under a software license    *
+ * agreement that contains provisions concerning               *
+ * non-disclosure, copying, length and nature of use,          *
+ * compliance with exporting laws, warranties, disclaimers,    *
+ * limitations of liability, and remedies, and other           *
+ * provisions.  The software products and documentation may be *
+ * used, disclosed, transferred, or copied only in accordance  *
+ * with the terms and conditions of that software license      *
+ * agreement.                                                  *
+ *                                                             *
+ * ANSYS, Inc. is a UL registered                              *
+ * ISO 9001:2008 company.                                      *
+ *                                                             *
+ ***************************************************************
+ *                                                             *
+ * This product is subject to U.S. laws governing export and   *
+ * re-export.                                                  *
+ *                                                             *
+ * For U.S. Government users, except as specifically granted   *
+ * by the ANSYS, Inc. software license agreement, the use,     *
+ * duplication, or disclosure by the United States Government  *
+ * is subject to restrictions stated in the ANSYS, Inc.        *
+ * software license agreement and FAR 12.212 (for non-DOD      *
+ * licenses).                                                  *
+ *                                                             *
+ ***************************************************************
+
+ Point Releases and Patches installed:   
+     
+ ANSYS, Inc. Products 15.0   
+ ANSYS Mechanical Products 15.0  
+ ANSYS Autodyn 15.0  
+ ANSYS LS-DYNA 15.0  
+ ANSYS CFX (includes ANSYS CFD-Post) 15.0
+ ANSYS Fluent (includes ANSYS CFD-Post) 15.0 
+ ANSYS TurboGrid 15.0
+ ANSYS Polyflow (includes ANSYS CFD-Post) 15.0   
+ ANSYS Aqwa 15.0 
+ ANSYS ICEM CFD 15.0 
+ ANSYS Icepak (includes ANSYS CFD-Post) 15.0 
+ Catia, Version 6 15.0   
+ ANSYS, Inc. License Manager 15.0
+
+
+          *****  ANSYS COMMAND LINE ARGUMENTS  *****
+  BATCH MODE REQUESTED (-b)    = LIST
+  INPUT FILE COPY MODE (-c)    = COPY
+
+ 20100520          VERSION=WINDOWS x64     RELEASE= 15.0     UP20131014
+ CURRENT JOBNAME=file  11:24:31  DEC 22, 2022 CP=      0.172
+
+     1  finish  
+     2  /clear  
+     3  /filname,fem1   
+     4      
+     5  !!输入数据  
+     6  *DIM,INPUTDATA,array,6,1
+     7  *VREAD,INPUTDATA,D:\SOFTWARE\ANSYS\dome_1\input,txt,,IJK,   
+     8  (1f6.0) 
+     9      
+    10      
+    11  !!参数输入  
+    12  /prep7  
+    13  !!材料特性  
+    14  PI=ACOS(-1)												!!pi 
+    15  Ex=2.06e11												!!弹性模量
+    16  Nu=0.3														!!泊松比
+    17  Fz=100000          				!!节点荷载   
+    18  !!几何特性  
+    19  dead_load=3000						!恒载2kN/m2 
+    20  live_load=1500						!活载1kN/m2 
+    21  wind_load=1000						!风载1kN/m2 
+    22      
+    23      
+    24  span=80 
+    25  R=span/2
+    26  H=INPUTDATA(1)	    							!!矢高
+    27  m=INPUTDATA(2)    								!!环数
+    28  n=INPUTDATA(3)       							!!内环段数  
+    29  m1=INPUTDATA(4) 
+    30  m2=INPUTDATA(5) 
+    31  m3=INPUTDATA(6) 
+    32  d_ring=R/m   											!!环间距
+    33  arc=(R**2+H**2)/(2*H) 						!!立面圆弧半径  
+    34      
+    35      
+    36  !!定义结构  
+    37  /prep7  
+    38      
+    39  !!定义截面  
+    40  et,1,beam188       								!!定义单元类型   
+    41  mp,ex,1,Ex          							!!定义弹性模量   
+    42  mp,nuxy,1,Nu   										!!定义泊松比   
+    43  mp,dens,1,7850 										!!定义密度 
+    44      
+    45  sectype,1,beam,I,,1 
+    46  secoffset,cent  
+    47  secdata,68e-3,68e-3,100e-3,7.6e-3,7.6e-3,4.5e-3 
+    48  sectype,2,beam,I,,1 
+    49  secoffset,cent  
+    50  secdata,74e-3,74e-3,126e-3,8.4e-3,8.4e-3,5e-3   
+    51  sectype,3,beam,I,,1 
+    52  secoffset,cent  
+    53  secdata,80e-3,80e-3,140e-3,9.1e-3,9.1e-3,5.5e-3 
+    54  sectype,4,beam,I,,1 
+    55  secoffset,cent  
+    56  secdata,88e-3,88e-3,160e-3,9.9e-3,9.9e-3,6e-3   
+    57  sectype,5,beam,I,,1 
+    58  secoffset,cent  
+    59  secdata,94e-3,94e-3,180e-3,10.7e-3,10.7e-3,6.5e-3   
+    60  sectype,6,beam,I,,1 
+    61  secoffset,cent  
+    62  secdata,100e-3,100e-3,200e-3,11.4e-3,11.4e-3,7e-3   
+    63  sectype,7,beam,I,,1 
+    64  secoffset,cent  
+    65  secdata,102e-3,102e-3,200e-3,11.4e-3,11.4e-3,9e-3   
+    66  sectype,8,beam,I,,1 
+    67  secoffset,cent  
+    68  secdata,110e-3,110e-3,220e-3,12.3e-3,12.3e-3,7.5e-3 
+    69  sectype,9,beam,I,,1 
+    70  secoffset,cent  
+    71  secdata,112e-3,112e-3,220e-3,12.3e-3,12.3e-3,9.5e-3 
+    72  sectype,10,beam,I,,1
+    73  secoffset,cent  
+    74  secdata,116e-3,116e-3,250e-3,13e-3,13e-3,8e-3   
+    75  sectype,11,beam,I,,1
+    76  secoffset,cent  
+    77  secdata,118e-3,118e-3,250e-3,13e-3,13e-3,10e-3  
+    78  sectype,12,beam,I,,1
+    79  secoffset,cent  
+    80  secdata,122e-3,122e-3,280e-3,13.7e-3,13.7e-3,8.5e-3 
+    81  sectype,13,beam,I,,1
+    82  secoffset,cent  
+    83  secdata,124e-3,124e-3,280e-3,13.7e-3,13.7e-3,10.5e-3
+    84  sectype,14,beam,I,,1
+    85  secoffset,cent  
+    86  secdata,130e-3,130e-3,320e-3,15e-3,15e-3,9.5e-3 
+    87  sectype,15,beam,I,,1
+    88  secoffset,cent  
+    89  secdata,132e-3,132e-3,320e-3,15e-3,15e-3,11.5e-3
+    90  sectype,16,beam,I,,1
+    91  secoffset,cent  
+    92  secdata,134e-3,134e-3,320e-3,15e-3,15e-3,13.5e-3
+    93  sectype,17,beam,I,,1
+    94  secoffset,cent  
+    95  secdata,136e-3,136e-3,360e-3,15.8e-3,15.8e-3,10e-3  
+    96  sectype,18,beam,I,,1
+    97  secoffset,cent  
+    98  secdata,138e-3,138e-3,360e-3,15.8e-3,15.8e-3,12e-3  
+    99  sectype,19,beam,I,,1
+   100  secoffset,cent  
+   101  secdata,140e-3,140e-3,360e-3,15.8e-3,15.8e-3,14e-3  
+   102  sectype,20,beam,I,,1
+   103  secoffset,cent  
+   104  secdata,142e-3,142e-3,400e-3,16.5e-3,16.5e-3,10.5e-3
+   105  sectype,21,beam,I,,1
+   106  secoffset,cent  
+   107  secdata,144e-3,144e-3,400e-3,16.5e-3,16.5e-3,12.5e-3
+   108  sectype,22,beam,I,,1
+   109  secoffset,cent  
+   110  secdata,146e-3,146e-3,400e-3,16.5e-3,16.5e-3,14.5e-3
+   111  sectype,23,beam,I,,1
+   112  secoffset,cent  
+   113  secdata,150e-3,150e-3,450e-3,18e-3,18e-3,11.5e-3
+   114  sectype,24,beam,I,,1
+   115  secoffset,cent  
+   116  secdata,152e-3,152e-3,450e-3,18e-3,18e-3,13.5e-3
+   117  sectype,25,beam,I,,1
+   118  secoffset,cent  
+   119  secdata,154e-3,154e-3,450e-3,18e-3,18e-3,15.5e-3
+   120  sectype,26,beam,I,,1
+   121  secoffset,cent  
+   122  secdata,158e-3,158e-3,500e-3,20e-3,20e-3,12e-3  
+   123  sectype,27,beam,I,,1
+   124  secoffset,cent  
+   125  secdata,160e-3,160e-3,500e-3,20e-3,20e-3,14e-3  
+   126  sectype,28,beam,I,,1
+   127  secoffset,cent  
+   128  secdata,162e-3,162e-3,500e-3,20e-3,20e-3,16e-3  
+   129  sectype,29,beam,I,,1
+   130  secoffset,cent  
+   131  secdata,166e-3,166e-3,560e-3,21e-3,21e-3,12.5e-3
+   132  sectype,30,beam,I,,1
+   133  secoffset,cent  
+   134  secdata,168e-3,168e-3,560e-3,21e-3,21e-3,14.5e-3
+   135  sectype,31,beam,I,,1
+   136  secoffset,cent  
+   137  secdata,170e-3,170e-3,560e-3,21e-3,21e-3,16.5e-3
+   138  sectype,32,beam,I,,1
+   139  secoffset,cent  
+   140  secdata,176e-3,176e-3,630e-3,22e-3,22e-3,13e-3  
+   141  sectype,33,beam,I,,1
+   142  secoffset,cent  
+   143  secdata,178e-3,178e-3,630e-3,22e-3,22e-3,15e-3  
+   144  sectype,34,beam,I,,1
+   145  secoffset,cent  
+   146  secdata,180e-3,180e-3,630e-3,22e-3,22e-3,17e-3  
+   147      
+   148      
+   149  !!定义节点  
+   150  num_nodes=n*(1+m)*m/2+1    		 		!!节点总数  
+   151  N,0,0,0,H            							!!圆心节点  
+   152  N,num_nodes+1,0,0,-100            		!!坐标系原点
+   153  *do,i,1,m   
+   154    *do,j,1,n*i   
+   155      inode=(i-1)*i*n/2+1+j        	!!当前节点号  
+   156      iradius=d_ring*i          		!!当前环半径
+   157      itheta=2*PI*(j-1)/(n*i)       !!当前节点角度
+   158      iheight=sqrt(arc**2-iradius**2)-arc+H 									!!当前节点矢高   
+   159      N,inode,iradius*cos(itheta),iradius*sin(itheta),iheight 
+   160    *enddo
+   161  *enddo  
+   162      
+   163  !!定义单元  
+   164  type,1  
+   165  secnum,m1   
+   166  mat,1   
+   167  *do,i,1,m-1                         !!定义环向杆件  
+   168    *do,j,1,n*i-1 
+   169      inode=(i-1)*i*n/2+1+j           !!节点号
+   170      e,inode,inode+1,num_nodes+1 
+   171    *enddo
+   172    e,(i-1)*i*n/2+n*i+1,(i-1)*i*n/2+2,num_nodes+1 
+   173  *enddo  
+   174      
+   175  type,1  
+   176  secnum,m2   
+   177  mat,1   
+   178  *do,i,2,n+1		                       !!定义径向杆件  
+   179  	e,1,i,num_nodes+1  
+   180    *do,j,1,m-1   
+   181      inode_start=(j-1)*j*n/2+j*(i-2)+2            						!!首节点号   
+   182      inode_end=(j+1)*j*n/2+(j+1)*(i-2)+2            					!!尾节点号  
+   183      e,inode_start,inode_end,Nnode+1 
+   184    *enddo
+   185  *enddo  
+   186      
+   187  type,1  
+   188  secnum,m3   
+   189  mat,1   
+   190  *do,i,1,m-1		                       !!定义支撑杆件  
+   191    *do,j,1,n 
+   192    	*dim,line1,array,1,i+1,1 
+   193    	*do,k,1,i+1  
+   194    		*if,j,eq,n,and,k,eq,i+1,then
+   195        	line1(1,k)=(i-1)*i*n/2+2 
+   196      	*else  
+   197        	line1(1,k)=(i-1)*i*n/2+(j-1)*i+k+1   
+   198        *endif
+   199    	*enddo   
+   200    	 
+   201    	*dim,line2,array,1,i,1   
+   202    	*do,k,1,i
+   203    		line2(1,k)=(i+1)*i*n/2+(j-1)*(i+1)+k+2  
+   204    	*enddo   
+   205    	 
+   206    	*dim,line,array,1,2*i+1,1
+   207    	*do,k,1,i
+   208    		line(1,2*k-1)=line1(1,k)
+   209    		line(1,2*k)=line2(1,k)  
+   210    	*enddo   
+   211    	line(1,2*i+1)=line1(1,i+1)   
+   212    	 
+   213    	*do,b,1,2*i  
+   214    		e,line(1,b),line(1,b+1),Nnode+1 
+   215    	*enddo   
+   216    	 
+   217    	line1=   
+   218    	line2=   
+   219    	line=
+   220      
+   221    *enddo
+   222  *enddo  
+   223      
+   224      
+   225      
+   226  !!!!施加约束
+   227  nsel,s,,,(m-1)*m*n/2+2,(m+1)*m*n/2+1
+   228  d,all,ux,0  
+   229  d,all,uy,0  
+   230  d,all,uz,0  
+   231  !d,all,rotx,0   
+   232  !d,all,roty,0   
+   233  !d,all,rotz,0   
+   234      
+   235      
+   236  !!!施加荷载 
+   237  fd=PI*R*R*dead_load/(n*(m-1)*m/2+1) 
+   238  fl=PI*R*R*live_load/(n*(m-1)*m/2+1) 
+   239  fw=(ASIN(R/arc)*arc*arc-R*arc+R*R)*wind_load*2/(n*(m-1)*m/2+1)  
+   240  ACEL,,,9.8  
+   241  nsel,s,,,1,(m-1)*m*n/2+1
+   242  f,all,fz,-fd
+   243  nsel,s,loc,x,0,R
+   244  f,all,fx,-fw
+   245  f,all,fz,-fl
+   246  nsel,all
+   247      
+   248  !!!首先进行静力分析 
+   249  /solu   
+   250  antype,0
+   251  pstres,on         					!!打开预应力开关 
+   252  solve   
+   253  finish                		 	!!结束当前求解
+   254      
+   255      
+   256  !!!然后进行屈曲分析 
+   257  /solu   
+   258  antype,1
+   259  bucopt,lanb,1   
+   260  mxpand,1,,,1
+   261  solve   
+   262  finish  
+   263      
+   264      
+   265  /post1  
+   266  NSORT,U,SUM,0								   
+   267  *get,u_max,SORT,0,MAX   
+   268      
+   269  *GET,STRESS_MAX,SECR,,S,EQV,MAX 
+   270  *GET,STRESS_MIN,SECR,,S,EQV,MIN 
+   271      
+   272      
+   273      
+   274  /prep7  
+   275  UPGEOM,span/300/abs(u_max),LAST,LAST,'fem1','rst',''
+   276  finish  
+   277      
+   278      
+   279  /solu   
+   280  antype,0
+   281  nlgeom,on   
+   282  arclen,on   
+   283  arctrm,U,1,,uz											!对弧长法求解进行终止控制  
+   284  neqit,30														!容许的最大平衡迭代次数   
+   285  nsubst,30														!设置子步数  
+   286  outres,all,all  
+   287  solve   
+   288  finish  
+   289      
+   290      
+   291  /post26 
+   292  prvar,4 
+   293  nsol,2,1,u,z
+   294  prod,3,2,,,,,,1000  
+   295  prod,4,1,,,,,,30
+   296  /axlab,x,Uz(mm) 
+   297  /axlab,y,K  
+   298  xvar,3  
+   299  plvar,4 
+   300  !!获得荷载稳定系数  
+   301  *GET,NUM_IT,VARI,4,NSETS
+   302  *do,i,1,NUM_IT-1
+   303  	*GET,k1,VARI,4,RSET,i  
+   304  	*GET,k2,VARI,4,RSET,i+1
+   305  	*IF,K1,gt,K2,then  
+   306  		STAB_EFF=k1   
+   307  		*exit 
+   308  	*else  
+   309  		STAB_EFF=k2   
+   310  	*endif 
+   311  *enddo  
+   312      
+   313  finish  
+   314      
+   315  !*cfopen,D:\SOFTWARE\ANSYS\dome_1\output,txt,,  
+   316  *cfopen,output,txt,,
+   317  *vwrite,u_max,STRESS_MAX,STAB_EFF   
+   318  (e15.6,2x,e15.6,2x,f10.5)   
+   319  *cfclos 
+   320  finish  
+   321      
+
+ RUN SETUP PROCEDURE FROM FILE= D:\SOFTWARE\ANSYS\v150\ANSYS\apdl\start150.ans
+
+ /INPUT FILE= D:\SOFTWARE\ANSYS\v150\ANSYS\apdl\start150.ans  LINE=       0
+
+ CLEAR DATABASE AND RERUN START.ANS
+
+ RUN SETUP PROCEDURE FROM FILE= D:\SOFTWARE\ANSYS\v150\ANSYS\apdl\start150.ans
+
+ ANSYS Multiphysics                                
+
+ /INPUT FILE= D:\SOFTWARE\ANSYS\v150\ANSYS\apdl\start150.ans  LINE=       0
+
+ CURRENT JOBNAME REDEFINED AS fem1
+
+ SET PARAMETER DIMENSIONS ON  INPUTDATA
+  TYPE=ARRA  DIMENSIONS=        6        1        1
+
+ VECTOR READ OPERATION  *VREAD  
+  INPUTDAT READ FROM FILE D:\SOFTWARE\ANSYS\dome_1\input.txt
+ VECTOR LENGTH=      6
+ LOOP DIRECTIONS=IJK   COUNTS=       6       1       1
+ FORMAT=(1f6.0)                                                               
+1
+
+ ***** ANSYS - ENGINEERING ANALYSIS SYSTEM  RELEASE 15.0      *****
+ ANSYS Multiphysics                                
+ 20100520          VERSION=WINDOWS x64   11:24:31  DEC 22, 2022 CP=      0.172
+
+                                                                               
+
+
+          ***** ANSYS ANALYSIS DEFINITION (PREP7) *****
+
+ PARAMETER PI =     3.141592654    
+
+ PARAMETER EX =    0.2060000000E+12
+
+ PARAMETER NU =    0.3000000000    
+
+ PARAMETER FZ =     100000.0000    
+
+ PARAMETER DEAD_LOAD =     3000.000000    
+
+ PARAMETER LIVE_LOAD =     1500.000000    
+
+ PARAMETER WIND_LOAD =     1000.000000    
+
+ PARAMETER SPAN =     80.00000000    
+
+ PARAMETER R =     40.00000000    
+
+ PARAMETER H =     21.00000000    
+
+ PARAMETER M =     2.000000000    
+
+ PARAMETER N =     5.000000000    
+
+ PARAMETER M1 =     2.000000000    
+
+ PARAMETER M2 =     28.00000000    
+
+ PARAMETER M3 =     1.000000000    
+
+ PARAMETER D_RING =     20.00000000    
+
+ PARAMETER ARC =     48.59523810    
+ You have already entered the general preprocessor (PREP7).              
+
+ ELEMENT TYPE      1 IS BEAM188      3-D 2-NODE BEAM             
+  KEYOPT( 1- 6)=        0      0      0        0      0      0
+  KEYOPT( 7-12)=        0      0      0        0      0      0
+  KEYOPT(13-18)=        0      0      0        0      0      0
+
+ CURRENT NODAL DOF SET IS  UX    UY    UZ    ROTX  ROTY  ROTZ
+  THREE-DIMENSIONAL MODEL
+
+ MATERIAL         1     EX   =  0.2060000E+12  
+
+ MATERIAL         1     NUXY =  0.3000000      
+
+ MATERIAL         1     DENS =   7850.000      
+                                   
+   INPUT SECTION ID NUMBER                1
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER      1 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:         1
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.14152E-02
+    Iyy                  = 0.24398E-05
+    Iyz                  = 0.11581E-21
+    Izz                  = 0.39892E-06
+    Warping Constant     = 0.84665E-09
+    Torsion Constant     = 0.22233E-07
+    Centroid Y           = 0.14589E-17
+    Centroid Z           = 0.50000E-01
+    Shear Center Y       =-0.28564E-14
+    Shear Center Z       = 0.50000E-01
+    Shear Correction-yy  = 0.62751    
+    Shear Correction-yz  =-0.69300E-13
+    Shear Correction-zz  = 0.29345    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER                2
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER      2 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:         2
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.17892E-02
+    Iyy                  = 0.48482E-05
+    Iyz                  =-0.25808E-21
+    Izz                  = 0.56845E-06
+    Warping Constant     = 0.19536E-08
+    Torsion Constant     = 0.33471E-07
+    Centroid Y           =-0.19824E-17
+    Centroid Z           = 0.63000E-01
+    Shear Center Y       = 0.52864E-14
+    Shear Center Z       = 0.63000E-01
+    Shear Correction-yy  = 0.59882    
+    Shear Correction-yz  = 0.40383E-13
+    Shear Correction-zz  = 0.32793    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER                3
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER      3 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:         3
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.21259E-02
+    Iyy                  = 0.70753E-05
+    Iyz                  =-0.17205E-21
+    Izz                  = 0.77822E-06
+    Warping Constant     = 0.33129E-08
+    Torsion Constant     = 0.46566E-07
+    Centroid Y           = 0.39843E-18
+    Centroid Z           = 0.70000E-01
+    Shear Center Y       = 0.60378E-16
+    Shear Center Z       = 0.70000E-01
+    Shear Correction-yy  = 0.59103    
+    Shear Correction-yz  =-0.14573E-12
+    Shear Correction-zz  = 0.33761    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER                4
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER      4 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:         4
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.25836E-02
+    Iyy                  = 0.11206E-04
+    Iyz                  = 0.44999E-21
+    Izz                  = 0.11270E-05
+    Warping Constant     = 0.63084E-08
+    Torsion Constant     = 0.66553E-07
+    Centroid Y           =-0.31965E-17
+    Centroid Z           = 0.80000E-01
+    Shear Center Y       = 0.67484E-14
+    Shear Center Z       = 0.80000E-01
+    Shear Correction-yy  = 0.58236    
+    Shear Correction-yz  = 0.22544E-12
+    Shear Correction-zz  = 0.34717    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER                5
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER      5 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:         5
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.30425E-02
+    Iyy                  = 0.16594E-04
+    Iyz                  =  0.0000    
+    Izz                  = 0.14848E-05
+    Warping Constant     = 0.10573E-07
+    Torsion Constant     = 0.90676E-07
+    Centroid Y           =-0.48720E-18
+    Centroid Z           = 0.90000E-01
+    Shear Center Y       =-0.28845E-14
+    Shear Center Z       = 0.90000E-01
+    Shear Correction-yy  = 0.57169    
+    Shear Correction-yz  = 0.80615E-13
+    Shear Correction-zz  = 0.36017    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER                6
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER      6 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:         6
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.35204E-02
+    Iyy                  = 0.23545E-04
+    Iyz                  =-0.18529E-20
+    Izz                  = 0.19051E-05
+    Warping Constant     = 0.16831E-07
+    Torsion Constant     = 0.11838E-06
+    Centroid Y           =-0.10767E-16
+    Centroid Z           = 0.10000    
+    Shear Center Y       =-0.31641E-14
+    Shear Center Z       = 0.10000    
+    Shear Correction-yy  = 0.56084    
+    Shear Correction-yz  =-0.18042E-12
+    Shear Correction-zz  = 0.37311    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER                7
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER      7 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:         7
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.39204E-02
+    Iyy                  = 0.24879E-04
+    Iyz                  =-0.15750E-20
+    Izz                  = 0.20271E-05
+    Warping Constant     = 0.17824E-07
+    Torsion Constant     = 0.14609E-06
+    Centroid Y           =-0.12423E-17
+    Centroid Z           = 0.10000    
+    Shear Center Y       =-0.53689E-14
+    Shear Center Z       = 0.10000    
+    Shear Correction-yy  = 0.52286    
+    Shear Correction-yz  =-0.41524E-13
+    Shear Correction-zz  = 0.42564    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER                8
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER      8 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:         8
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.41715E-02
+    Iyy                  = 0.33881E-04
+    Iyz                  =-0.29117E-21
+    Izz                  = 0.27354E-05
+    Warping Constant     = 0.29318E-07
+    Torsion Constant     = 0.16309E-06
+    Centroid Y           = 0.50763E-19
+    Centroid Z           = 0.11000    
+    Shear Center Y       =-0.43735E-14
+    Shear Center Z       = 0.11000    
+    Shear Correction-yy  = 0.56126    
+    Shear Correction-yz  =-0.58891E-13
+    Shear Correction-zz  = 0.37139    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER                9
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER      9 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:         9
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.46115E-02
+    Iyy                  = 0.35655E-04
+    Iyz                  =  0.0000    
+    Izz                  = 0.28941E-05
+    Warping Constant     = 0.30890E-07
+    Torsion Constant     = 0.19758E-06
+    Centroid Y           = 0.19286E-17
+    Centroid Z           = 0.11000    
+    Shear Center Y       = 0.77541E-15
+    Shear Center Z       = 0.11000    
+    Shear Correction-yy  = 0.52529    
+    Shear Correction-yz  =-0.11473E-12
+    Shear Correction-zz  = 0.42082    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               10
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     10 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        10
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.48080E-02
+    Iyy                  = 0.49887E-04
+    Iyz                  = 0.45528E-20
+    Izz                  = 0.33915E-05
+    Warping Constant     = 0.47322E-07
+    Torsion Constant     = 0.20734E-06
+    Centroid Y           = 0.94692E-17
+    Centroid Z           = 0.12500    
+    Shear Center Y       =-0.26783E-14
+    Shear Center Z       = 0.12500    
+    Shear Correction-yy  = 0.54385    
+    Shear Correction-yz  =-0.37570E-12
+    Shear Correction-zz  = 0.39176    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               11
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     11 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        11
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.53080E-02
+    Iyy                  = 0.52491E-04
+    Iyz                  = 0.47646E-20
+    Izz                  = 0.35786E-05
+    Warping Constant     = 0.49736E-07
+    Torsion Constant     = 0.25104E-06
+    Centroid Y           = 0.33112E-17
+    Centroid Z           = 0.12500    
+    Shear Center Y       =-0.17565E-14
+    Shear Center Z       = 0.12500    
+    Shear Correction-yy  = 0.50919    
+    Shear Correction-yz  =-0.12854E-12
+    Shear Correction-zz  = 0.43920    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               12
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     12 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        12
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.54899E-02
+    Iyy                  = 0.70733E-04
+    Iyz                  =-0.33881E-20
+    Izz                  = 0.41591E-05
+    Warping Constant     = 0.73258E-07
+    Torsion Constant     = 0.26016E-06
+    Centroid Y           =-0.11225E-16
+    Centroid Z           = 0.14000    
+    Shear Center Y       =-0.29385E-14
+    Shear Center Z       = 0.14000    
+    Shear Correction-yy  = 0.52885    
+    Shear Correction-yz  =-0.11689E-12
+    Shear Correction-zz  = 0.40922    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               13
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     13 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        13
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.60499E-02
+    Iyy                  = 0.74392E-04
+    Iyz                  =-0.26470E-20
+    Izz                  = 0.43778E-05
+    Warping Constant     = 0.76821E-07
+    Torsion Constant     = 0.31446E-06
+    Centroid Y           =-0.67904E-17
+    Centroid Z           = 0.14000    
+    Shear Center Y       = 0.40887E-14
+    Shear Center Z       = 0.14000    
+    Shear Correction-yy  = 0.49558    
+    Shear Correction-yz  = 0.47397E-13
+    Shear Correction-zz  = 0.45461    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               14
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     14 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        14
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.66550E-02
+    Iyy                  = 0.11008E-03
+    Iyz                  = 0.13764E-20
+    Izz                  = 0.55132E-05
+    Warping Constant     = 0.12730E-06
+    Torsion Constant     = 0.37486E-06
+    Centroid Y           = 0.36911E-17
+    Centroid Z           = 0.16000    
+    Shear Center Y       =-0.87627E-15
+    Shear Center Z       = 0.16000    
+    Shear Correction-yy  = 0.51083    
+    Shear Correction-yz  =-0.14626E-12
+    Shear Correction-zz  = 0.43172    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               15
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     15 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        15
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.72950E-02
+    Iyy                  = 0.11554E-03
+    Iyz                  = 0.19058E-20
+    Izz                  = 0.57867E-05
+    Warping Constant     = 0.13313E-06
+    Torsion Constant     = 0.45027E-06
+    Centroid Y           = 0.19739E-17
+    Centroid Z           = 0.16000    
+    Shear Center Y       = 0.10739E-13
+    Shear Center Z       = 0.16000    
+    Shear Correction-yy  = 0.48066    
+    Shear Correction-yz  =-0.70663E-13
+    Shear Correction-zz  = 0.47303    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               16
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     16 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        16
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.79350E-02
+    Iyy                  = 0.12100E-03
+    Iyz                  = 0.21176E-20
+    Izz                  = 0.60747E-05
+    Warping Constant     = 0.13913E-06
+    Torsion Constant     = 0.55360E-06
+    Centroid Y           =-0.21349E-18
+    Centroid Z           = 0.16000    
+    Shear Center Y       = 0.14420E-14
+    Shear Center Z       = 0.16000    
+    Shear Correction-yy  = 0.45657    
+    Shear Correction-yz  =-0.17681E-12
+    Shear Correction-zz  = 0.50698    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               17
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     17 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        17
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.75816E-02
+    Iyy                  = 0.15689E-03
+    Iyz                  = 0.84703E-21
+    Izz                  = 0.66514E-05
+    Warping Constant     = 0.19558E-06
+    Torsion Constant     = 0.46662E-06
+    Centroid Y           =-0.56420E-17
+    Centroid Z           = 0.18000    
+    Shear Center Y       = 0.20701E-14
+    Shear Center Z       = 0.18000    
+    Shear Correction-yy  = 0.49497    
+    Shear Correction-yz  = 0.17115E-12
+    Shear Correction-zz  = 0.44979    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               18
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     18 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        18
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.83016E-02
+    Iyy                  = 0.16467E-03
+    Iyz                  =-0.15882E-20
+    Izz                  = 0.69679E-05
+    Warping Constant     = 0.20417E-06
+    Torsion Constant     = 0.55949E-06
+    Centroid Y           =-0.19386E-17
+    Centroid Z           = 0.18000    
+    Shear Center Y       = 0.58975E-14
+    Shear Center Z       = 0.18000    
+    Shear Correction-yy  = 0.46592    
+    Shear Correction-yz  = 0.11172E-12
+    Shear Correction-zz  = 0.48939    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               19
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     19 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        19
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.90216E-02
+    Iyy                  = 0.17244E-03
+    Iyz                  =-0.95291E-21
+    Izz                  = 0.73010E-05
+    Warping Constant     = 0.21300E-06
+    Torsion Constant     = 0.68524E-06
+    Centroid Y           =-0.44128E-17
+    Centroid Z           = 0.18000    
+    Shear Center Y       = 0.38510E-14
+    Shear Center Z       = 0.18000    
+    Shear Correction-yy  = 0.44267    
+    Shear Correction-yz  =-0.60067E-13
+    Shear Correction-zz  = 0.52202    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               20
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     20 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        20
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.85395E-02
+    Iyy                  = 0.21565E-03
+    Iyz                  =-0.77292E-20
+    Izz                  = 0.79094E-05
+    Warping Constant     = 0.28868E-06
+    Torsion Constant     = 0.56686E-06
+    Centroid Y           =-0.15424E-16
+    Centroid Z           = 0.20000    
+    Shear Center Y       = 0.11167E-14
+    Shear Center Z       = 0.20000    
+    Shear Correction-yy  = 0.48003    
+    Shear Correction-yz  =-0.12097E-12
+    Shear Correction-zz  = 0.46663    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               21
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     21 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        21
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.93395E-02
+    Iyy                  = 0.22632E-03
+    Iyz                  =-0.46587E-20
+    Izz                  = 0.82712E-05
+    Warping Constant     = 0.30085E-06
+    Torsion Constant     = 0.67925E-06
+    Centroid Y           =-0.16778E-16
+    Centroid Z           = 0.20000    
+    Shear Center Y       = 0.49860E-14
+    Shear Center Z       = 0.20000    
+    Shear Correction-yy  = 0.45211    
+    Shear Correction-yz  =-0.34358E-12
+    Shear Correction-zz  = 0.50452    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               22
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     22 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        22
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.10139E-01
+    Iyy                  = 0.23699E-03
+    Iyz                  =-0.58234E-20
+    Izz                  = 0.86516E-05
+    Warping Constant     = 0.31338E-06
+    Torsion Constant     = 0.82980E-06
+    Centroid Y           =-0.22681E-16
+    Centroid Z           = 0.20000    
+    Shear Center Y       =-0.47376E-14
+    Shear Center Z       = 0.20000    
+    Shear Correction-yy  = 0.42970    
+    Shear Correction-yz  =-0.21326E-12
+    Shear Correction-zz  = 0.53582    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               23
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     23 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        23
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.10161E-01
+    Iyy                  = 0.32009E-03
+    Iyz                  =-0.10059E-19
+    Izz                  = 0.10177E-04
+    Warping Constant     = 0.47109E-06
+    Torsion Constant     = 0.79287E-06
+    Centroid Y           =-0.16089E-16
+    Centroid Z           = 0.22500    
+    Shear Center Y       =-0.21751E-13
+    Shear Center Z       = 0.22500    
+    Shear Correction-yy  = 0.46628    
+    Shear Correction-yz  = 0.26953E-13
+    Shear Correction-zz  = 0.48355    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               24
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     24 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        24
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.11061E-01
+    Iyy                  = 0.33528E-03
+    Iyz                  =-0.83645E-20
+    Izz                  = 0.10620E-04
+    Warping Constant     = 0.48994E-06
+    Torsion Constant     = 0.94205E-06
+    Centroid Y           =-0.18072E-16
+    Centroid Z           = 0.22500    
+    Shear Center Y       = 0.93609E-14
+    Shear Center Z       = 0.22500    
+    Shear Correction-yy  = 0.44076    
+    Shear Correction-yz  =-0.37321E-13
+    Shear Correction-zz  = 0.51828    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               25
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     25 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        25
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.11961E-01
+    Iyy                  = 0.35046E-03
+    Iyz                  =-0.82586E-20
+    Izz                  = 0.11085E-04
+    Warping Constant     = 0.50933E-06
+    Torsion Constant     = 0.11377E-05
+    Centroid Y           = 0.92061E-18
+    Centroid Z           = 0.22500    
+    Shear Center Y       =-0.11358E-13
+    Shear Center Z       = 0.22500    
+    Shear Correction-yy  = 0.42009    
+    Shear Correction-yz  = 0.10632E-13
+    Shear Correction-zz  = 0.54725    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               26
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     26 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        26
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.11840E-01
+    Iyy                  = 0.46158E-03
+    Iyz                  = 0.29223E-19
+    Izz                  = 0.13214E-04
+    Warping Constant     = 0.75538E-06
+    Torsion Constant     = 0.11002E-05
+    Centroid Y           = 0.14666E-16
+    Centroid Z           = 0.25000    
+    Shear Center Y       =-0.35860E-14
+    Shear Center Z       = 0.25000    
+    Shear Correction-yy  = 0.46732    
+    Shear Correction-yz  = 0.44907E-12
+    Shear Correction-zz  = 0.48224    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               27
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     27 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        27
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.12840E-01
+    Iyy                  = 0.48241E-03
+    Iyz                  = 0.25411E-19
+    Izz                  = 0.13759E-04
+    Warping Constant     = 0.78411E-06
+    Torsion Constant     = 0.12818E-05
+    Centroid Y           = 0.10159E-16
+    Centroid Z           = 0.25000    
+    Shear Center Y       =-0.52743E-14
+    Shear Center Z       = 0.25000    
+    Shear Correction-yy  = 0.44261    
+    Shear Correction-yz  = 0.17547E-12
+    Shear Correction-zz  = 0.51584    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               28
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     28 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        28
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.13840E-01
+    Iyy                  = 0.50325E-03
+    Iyz                  = 0.30917E-19
+    Izz                  = 0.14329E-04
+    Warping Constant     = 0.81362E-06
+    Torsion Constant     = 0.15170E-05
+    Centroid Y           = 0.17320E-16
+    Centroid Z           = 0.25000    
+    Shear Center Y       = 0.11595E-14
+    Shear Center Z       = 0.25000    
+    Shear Correction-yy  = 0.42238    
+    Shear Correction-yz  = 0.92240E-13
+    Shear Correction-zz  = 0.54408    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               29
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     29 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        29
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.13447E-01
+    Iyy                  = 0.65142E-03
+    Iyz                  =-0.42352E-20
+    Izz                  = 0.16094E-04
+    Warping Constant     = 0.11602E-05
+    Torsion Constant     = 0.13531E-05
+    Centroid Y           =-0.12976E-16
+    Centroid Z           = 0.28000    
+    Shear Center Y       = 0.23349E-13
+    Shear Center Z       = 0.28000    
+    Shear Correction-yy  = 0.45425    
+    Shear Correction-yz  =-0.13948E-12
+    Shear Correction-zz  = 0.49609    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               30
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     30 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        30
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.14567E-01
+    Iyy                  = 0.68069E-03
+    Iyz                  = 0.14823E-20
+    Izz                  = 0.16727E-04
+    Warping Constant     = 0.12023E-05
+    Torsion Constant     = 0.15721E-05
+    Centroid Y           =-0.13432E-16
+    Centroid Z           = 0.28000    
+    Shear Center Y       =-0.37176E-14
+    Shear Center Z       = 0.28000    
+    Shear Correction-yy  = 0.43033    
+    Shear Correction-yz  =-0.28905E-12
+    Shear Correction-zz  = 0.52834    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               31
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     31 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        31
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.15687E-01
+    Iyy                  = 0.70996E-03
+    Iyz                  = 0.84703E-21
+    Izz                  = 0.17389E-04
+    Warping Constant     = 0.12455E-05
+    Torsion Constant     = 0.18534E-05
+    Centroid Y           = 0.11663E-16
+    Centroid Z           = 0.28000    
+    Shear Center Y       =-0.99422E-14
+    Shear Center Z       = 0.28000    
+    Shear Correction-yy  = 0.41069    
+    Shear Correction-yz  =-0.10287E-12
+    Shear Correction-zz  = 0.55552    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               32
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     32 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        32
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.15362E-01
+    Iyy                  = 0.93398E-03
+    Iyz                  =-0.19905E-19
+    Izz                  = 0.20097E-04
+    Warping Constant     = 0.18438E-05
+    Torsion Constant     = 0.16682E-05
+    Centroid Y           =-0.24812E-17
+    Centroid Z           = 0.31500    
+    Shear Center Y       =-0.33743E-14
+    Shear Center Z       = 0.31500    
+    Shear Correction-yy  = 0.44174    
+    Shear Correction-yz  =-0.26246E-12
+    Shear Correction-zz  = 0.50875    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               33
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     33 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        33
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.16622E-01
+    Iyy                  = 0.97566E-03
+    Iyz                  =-0.13553E-19
+    Izz                  = 0.20844E-04
+    Warping Constant     = 0.19071E-05
+    Torsion Constant     = 0.19326E-05
+    Centroid Y           =-0.34142E-17
+    Centroid Z           = 0.31500    
+    Shear Center Y       = 0.21334E-13
+    Shear Center Z       = 0.31500    
+    Shear Correction-yy  = 0.41853    
+    Shear Correction-yz  = 0.43072E-13
+    Shear Correction-zz  = 0.53972    
+                 
+    Beam Section is offset to CENTROID of cross section
+                                   
+   INPUT SECTION ID NUMBER               34
+   INPUT SECTION TYPE                 BEAM
+   INPUT BEAM SECTION SUBTYPE         I Section       
+   INPUT BEAM SECTION NAME                    
+         
+   BEAM SECTION WITH SECTION ID NUMBER     34 IS OFFSET TO CENTROID
+                     
+   SECTION ID NUMBER IS:        34
+   BEAM SECTION TYPE IS:     I Section       
+   BEAM SECTION NAME IS:             
+   COMPUTED BEAM SECTION DATA SUMMARY:
+    Area                 = 0.17882E-01
+    Iyy                  = 0.10173E-02
+    Iyz                  =-0.76233E-20
+    Izz                  = 0.21624E-04
+    Warping Constant     = 0.19720E-05
+    Torsion Constant     = 0.22698E-05
+    Centroid Y           =-0.19895E-17
+    Centroid Z           = 0.31500    
+    Shear Center Y       = 0.56656E-14
+    Shear Center Z       = 0.31500    
+    Shear Correction-yy  = 0.39938    
+    Shear Correction-yz  = 0.47599E-13
+    Shear Correction-zz  = 0.56587    
+                 
+    Beam Section is offset to CENTROID of cross section
+
+ PARAMETER NUM_NODES =     16.00000000    
+
+ NODE        1  KCS=   0  X,Y,Z=  0.0000      0.0000      21.000    
+
+ NODE       17  KCS=   0  X,Y,Z=  0.0000      0.0000     -100.00    
+
+ *DO LOOP ON PARAMETER= I FROM  1.0000     TO  2.0000     BY  1.0000    
+
+ *DO LOOP ON PARAMETER= J FROM  1.0000     TO  5.0000     BY  1.0000    
+
+ PARAMETER INODE =     2.000000000    
+
+ PARAMETER IRADIUS =     20.00000000    
+
+ PARAMETER ITHETA =     0.000000000    
+
+ PARAMETER IHEIGHT =     16.69355468    
+
+ NODE        2  KCS=   0  X,Y,Z=  20.000      0.0000      16.694    
+
+ *ENDDO  INDEX= J                               
+
+ *ENDDO  INDEX= I                               
+
+ ELEMENT TYPE SET TO         1
+
+ SECTION ID NUMBER=        2
+
+ MATERIAL NUMBER SET TO         1
+
+ *DO LOOP ON PARAMETER= I FROM  1.0000     TO  1.0000     BY  1.0000    
+
+ *DO LOOP ON PARAMETER= J FROM  1.0000     TO  4.0000     BY  1.0000    
+
+ PARAMETER INODE =     2.000000000    
+
+ ELEMENT      1       2      3     17
+
+ *ENDDO  INDEX= J                               
+
+ ELEMENT      5       6      2     17
+
+ *ENDDO  INDEX= I                               
+
+ ELEMENT TYPE SET TO         1
+
+ SECTION ID NUMBER=       28
+
+ MATERIAL NUMBER SET TO         1
+
+ *DO LOOP ON PARAMETER= I FROM  2.0000     TO  6.0000     BY  1.0000    
+
+ ELEMENT      6       1      2     17
+
+ *DO LOOP ON PARAMETER= J FROM  1.0000     TO  1.0000     BY  1.0000    
+
+ PARAMETER INODE_START =     2.000000000    
+
+ PARAMETER INODE_END =     7.000000000    
+
+ ELEMENT      7       2      7      1
+
+ *ENDDO  INDEX= J                               
+
+ *ENDDO  INDEX= I                               
+
+ ELEMENT TYPE SET TO         1
+
+ SECTION ID NUMBER=        1
+
+ MATERIAL NUMBER SET TO         1
+
+ *DO LOOP ON PARAMETER= I FROM  1.0000     TO  1.0000     BY  1.0000    
+
+ *DO LOOP ON PARAMETER= J FROM  1.0000     TO  5.0000     BY  1.0000    
+
+ SET PARAMETER DIMENSIONS ON  LINE1 TYPE=ARRA  DIMENSIONS=     1     2     1
+
+ *DO LOOP ON PARAMETER= K FROM  1.0000     TO  2.0000     BY  1.0000    
+
+ *IF  j                                 ( =   1.00000     )  EQ  
+      n                                 ( =   5.00000     )          
+ *****  AND   *****
+      k                                 ( =   1.00000     )  EQ  
+      i+1                               ( =   2.00000     )  THEN    
+
+ *ELSE
+
+ PARAMETER LINE1(1,K) =     2.000000000    
+
+ *ENDIF
+
+ *ENDDO  INDEX= K                               
+
+ SET PARAMETER DIMENSIONS ON  LINE2 TYPE=ARRA  DIMENSIONS=     1     1     1
+
+ *DO LOOP ON PARAMETER= K FROM  1.0000     TO  1.0000     BY  1.0000    
+
+ PARAMETER LINE2(1,K) =     8.000000000    
+
+ *ENDDO  INDEX= K                               
+
+ SET PARAMETER DIMENSIONS ON  LINE TYPE=ARRA  DIMENSIONS=     1     3     1
+
+ *DO LOOP ON PARAMETER= K FROM  1.0000     TO  1.0000     BY  1.0000    
+
+ PARAMETER LINE(1,2*K-1) =     2.000000000    
+
+ PARAMETER LINE(1,2*K) =     8.000000000    
+
+ *ENDDO  INDEX= K                               
+
+ PARAMETER LINE(1,2*I+1) =     3.000000000    
+
+ *DO LOOP ON PARAMETER= B FROM  1.0000     TO  2.0000     BY  1.0000    
+
+ ELEMENT     16       2      8      1
+
+ *ENDDO  INDEX= B                               
+
+ ARRAY PARAMETER LINE1     DELETED.
+
+ ARRAY PARAMETER LINE2     DELETED.
+
+ ARRAY PARAMETER LINE      DELETED.
+
+ *ENDDO  INDEX= J                               
+
+ *ENDDO  INDEX= I                               
+
+ SELECT       FOR ITEM=NODE COMPONENT=    
+  IN RANGE         7 TO         16 STEP          1
+
+         10  NODES (OF         17  DEFINED) SELECTED BY  NSEL  COMMAND.
+
+ SPECIFIED CONSTRAINT UX   FOR SELECTED NODES         1 TO       17 BY        1
+ REAL=  0.00000000       IMAG=  0.00000000    
+
+ SPECIFIED CONSTRAINT UY   FOR SELECTED NODES         1 TO       17 BY        1
+ REAL=  0.00000000       IMAG=  0.00000000    
+
+ SPECIFIED CONSTRAINT UZ   FOR SELECTED NODES         1 TO       17 BY        1
+ REAL=  0.00000000       IMAG=  0.00000000    
+
+ PARAMETER FD =     2513274.123    
+
+ PARAMETER FL =     1256637.061    
+
+ PARAMETER FW =     646502.6413    
+
+ ACEL=    0.0000      0.0000      9.8000    
+
+ SELECT       FOR ITEM=NODE COMPONENT=    
+  IN RANGE         1 TO          6 STEP          1
+
+          6  NODES (OF         17  DEFINED) SELECTED BY  NSEL  COMMAND.
+
+ SPECIFIED NODAL LOAD FZ   FOR SELECTED NODES         1 TO       17 BY        1
+  REAL= -2513274.12       IMAG=  0.00000000    
+
+ SELECT       FOR ITEM=LOC  COMPONENT=X     BETWEEN  0.0000     AND   40.000    
+   KABS=  0.  TOLERANCE= 0.400000E-06
+
+         10  NODES (OF         17  DEFINED) SELECTED BY  NSEL  COMMAND.
+
+ SPECIFIED NODAL LOAD FX   FOR SELECTED NODES         1 TO       17 BY        1
+  REAL= -646502.641       IMAG=  0.00000000    
+
+ SPECIFIED NODAL LOAD FZ   FOR SELECTED NODES         1 TO       17 BY        1
+  REAL= -1256637.06       IMAG=  0.00000000    
+
+ ALL SELECT   FOR ITEM=NODE COMPONENT=    
+  IN RANGE         1 TO         17 STEP          1
+
+         17  NODES (OF         17  DEFINED) SELECTED BY NSEL  COMMAND.
+
+
+ ***** ROUTINE COMPLETED *****  CP =         0.250
+
+
+
+ *****  ANSYS SOLUTION ROUTINE  *****
+
+
+ PERFORM A STATIC ANALYSIS
+  THIS WILL BE A NEW ANALYSIS
+
+
+ CALCULATE PRESTRESS EFFECTS FOR A SUBSEQUENT PRESTRESSED ANALYSIS
+
+ *****  ANSYS SOLVE    COMMAND  *****
+
+ *** NOTE ***                            CP =       0.250   TIME= 11:24:31
+ There is no title defined for this analysis.                            
+
+ *** SELECTION OF ELEMENT TECHNOLOGIES FOR APPLICABLE ELEMENTS ***
+                ---GIVE SUGGESTIONS ONLY---
+
+ ELEMENT TYPE    1 IS BEAM188 . KEYOPT(1)=1 IS SUGGESTED FOR NON-CIRCULAR CROSS
+ SECTIONS AND KEYOPT(3)=2 IS ALWAYS SUGGESTED.
+
+ ELEMENT TYPE    1 IS BEAM188 . KEYOPT(15) IS ALREADY SET AS SUGGESTED.
+
+
+1
+
+ ***** ANSYS - ENGINEERING ANALYSIS SYSTEM  RELEASE 15.0      *****
+ ANSYS Multiphysics                                
+ 20100520          VERSION=WINDOWS x64   11:24:31  DEC 22, 2022 CP=      0.250
+
+                                                                               
+
+
+                       S O L U T I O N   O P T I O N S
+
+   PROBLEM DIMENSIONALITY. . . . . . . . . . . . .3-D                  
+   DEGREES OF FREEDOM. . . . . . UX   UY   UZ   ROTX ROTY ROTZ
+   ANALYSIS TYPE . . . . . . . . . . . . . . . . .STATIC (STEADY-STATE)
+   PRESTRESS EFFECTS CALCULATED. . . . . . . . . .YES
+   GLOBALLY ASSEMBLED MATRIX . . . . . . . . . . .SYMMETRIC  
+
+ *** NOTE ***                            CP =       0.250   TIME= 11:24:31
+ Present time 0 is less than or equal to the previous time.  Time will   
+ default to 1.                                                           
+
+ *** NOTE ***                            CP =       0.250   TIME= 11:24:31
+ The conditions for direct assembly have been met.  No .emat or .erot    
+ files will be produced.                                                 
+
+                      L O A D   S T E P   O P T I O N S
+
+   LOAD STEP NUMBER. . . . . . . . . . . . . . . .     1
+   TIME AT END OF THE LOAD STEP. . . . . . . . . .  1.0000    
+   NUMBER OF SUBSTEPS. . . . . . . . . . . . . . .     1
+   STEP CHANGE BOUNDARY CONDITIONS . . . . . . . .    NO
+   INERTIA LOADS                        X           Y           Z 
+      ACEL . . . . . . . . . . . .  0.0000      0.0000      9.8000    
+   PRINT OUTPUT CONTROLS . . . . . . . . . . . . .NO PRINTOUT
+   DATABASE OUTPUT CONTROLS. . . . . . . . . . . .ALL DATA WRITTEN
+                                                  FOR THE LAST SUBSTEP
+
+
+ SOLUTION MONITORING INFO IS WRITTEN TO FILE= fem1.mntr                                                                                                                                                                                                                                                           
+
+ *** NOTE ***                            CP =       0.281   TIME= 11:24:31
+ Predictor is ON by default for structural elements with rotational      
+ degrees of freedom.  Use the PRED,OFF command to turn the predictor     
+ OFF if it adversely affects the convergence.                            
+
+
+
+                         ***********  PRECISE MASS SUMMARY  ***********
+
+   TOTAL RIGID BODY MASS MATRIX ABOUT ORIGIN
+               Translational mass               |   Coupled translational/rotational mass
+         30401.        0.0000        0.0000     |     0.0000       0.38423E+06  -0.90949E-11
+         0.0000        30401.        0.0000     |   -0.38423E+06    0.0000      -0.14325E-10
+         0.0000        0.0000        30401.     |    0.90949E-11   0.14325E-10    0.0000    
+     ------------------------------------------ | ------------------------------------------
+                                                |         Rotational mass (inertia)
+                                                |    0.15201E+08   0.40745E-09   0.15737E-09
+                                                |   -0.58208E-10   0.15201E+08   0.26193E-09
+                                                |    0.42448E-10   0.24738E-09   0.18274E+08
+
+   TOTAL MASS =  30401.    
+     The mass principal axes coincide with the global Cartesian axes
+
+   CENTER OF MASS (X,Y,Z)=  -0.47118E-15   0.29916E-15    12.638    
+
+   TOTAL INERTIA ABOUT CENTER OF MASS
+        0.10345E+08   0.40745E-09  -0.23669E-10
+        0.40745E-09   0.10345E+08   0.37688E-09
+       -0.23669E-10   0.37688E-09   0.18274E+08
+     The inertia principal axes coincide with the global Cartesian axes
+
+
+  *** MASS SUMMARY BY ELEMENT TYPE ***
+
+  TYPE      MASS
+     1   30401.4    
+
+ Range of element maximum matrix coefficients in global coordinates
+ Maximum = 133204365 at element 6.                                       
+ Minimum = 3416066.78 at element 23.                                     
+
+   *** ELEMENT MATRIX FORMULATION TIMES
+  TYPE    NUMBER   ENAME      TOTAL CP  AVE CP
+
+     1        25  BEAM188       0.000   0.000000
+ Time at end of element matrix formulation CP = 0.28125.                 
+
+ SPARSE MATRIX DIRECT SOLVER.
+  Number of equations =          66,    Maximum wavefront =     42
+  Memory allocated for solver =                 15.259 MB
+  Memory required for in-core =                  0.057 MB
+  Optimal memory required for out-of-core =      0.049 MB
+  Minimum memory required for out-of-core =      0.046 MB
+
+ *** NOTE ***                            CP =       0.281   TIME= 11:24:31
+ The Sparse Matrix solver is currently running in the in-core memory     
+ mode.  This memory mode uses the most amount of memory in order to      
+ avoid using the hard drive as much as possible, which most often        
+ results in the fastest solution time.  This mode is recommended if      
+ enough physical memory is present to accommodate all of the solver      
+ data.                                                                   
+ Sparse solver maximum pivot= 229246956 at node 1 UX.                    
+ Sparse solver minimum pivot= 11161.6949 at node 15 ROTZ.                
+ Sparse solver minimum pivot in absolute value= 11161.6949 at node 15    
+ ROTZ.                                                                   
+
+   *** ELEMENT RESULT CALCULATION TIMES
+  TYPE    NUMBER   ENAME      TOTAL CP  AVE CP
+
+     1        25  BEAM188       0.000   0.000000
+
+   *** NODAL LOAD CALCULATION TIMES
+  TYPE    NUMBER   ENAME      TOTAL CP  AVE CP
+
+     1        25  BEAM188       0.000   0.000000
+ *** LOAD STEP     1   SUBSTEP     1  COMPLETED.    CUM ITER =      1
+ *** TIME =   1.00000         TIME INC =   1.00000      NEW TRIANG MATRIX
+
+
+ *** ANSYS BINARY FILE STATISTICS
+  BUFFER SIZE USED= 16384
+        0.062 MB WRITTEN ON ASSEMBLED MATRIX FILE: fem1.full
+        1.125 MB WRITTEN ON RESULTS FILE: fem1.rst
+
+ FINISH SOLUTION PROCESSING
+
+
+ ***** ROUTINE COMPLETED *****  CP =         0.281
+
+
+
+ *****  ANSYS SOLUTION ROUTINE  *****
+
+
+ PERFORM A BUCKLING ANALYSIS
+  THIS WILL BE A NEW ANALYSIS
+
+ *** NOTE ***                            CP =       0.281   TIME= 11:24:31
+ Some analysis options have been reset to their defaults.  Please verify 
+ current settings or respecify as required.                              
+
+
+ USE SYM. BLOCK LANCZOS METHOD TO EXTRACT       1 MODES
+  EXTRACT EIGENVALUES CENTERED ABOUT   0.0000    
+
+
+ NUMBER OF MODES TO EXPAND=     1
+  CALCULATE ELEMENT RESULTS AND NODAL DOF SOLUTION
+
+ *****  ANSYS SOLVE    COMMAND  *****
+
+ *** NOTE ***                            CP =       0.281   TIME= 11:24:31
+ There is no title defined for this analysis.                            
+
+ *** SELECTION OF ELEMENT TECHNOLOGIES FOR APPLICABLE ELEMENTS ***
+                ---GIVE SUGGESTIONS ONLY---
+
+ ELEMENT TYPE    1 IS BEAM188 . KEYOPT(1)=1 IS SUGGESTED FOR NON-CIRCULAR CROSS
+ SECTIONS AND KEYOPT(3)=2 IS ALWAYS SUGGESTED.
+
+ ELEMENT TYPE    1 IS BEAM188 . KEYOPT(15) IS ALREADY SET AS SUGGESTED.
+
+
+1
+
+ ***** ANSYS - ENGINEERING ANALYSIS SYSTEM  RELEASE 15.0      *****
+ ANSYS Multiphysics                                
+ 20100520          VERSION=WINDOWS x64   11:24:31  DEC 22, 2022 CP=      0.281
+
+                                                                               
+
+
+                       S O L U T I O N   O P T I O N S
+
+   PROBLEM DIMENSIONALITY. . . . . . . . . . . . .3-D                  
+   DEGREES OF FREEDOM. . . . . . UX   UY   UZ   ROTX ROTY ROTZ
+   ANALYSIS TYPE . . . . . . . . . . . . . . . . .BUCKLING             
+      EXTRACTION METHOD. . . . . . . . . . . . . .BLOCK LANCZOS
+   PRESTRESS EFFECTS INCLUDED IF AVAILABLE . . . .YES
+   GLOBALLY ASSEMBLED MATRIX . . . . . . . . . . .SYMMETRIC  
+
+ *** NOTE ***                            CP =       0.281   TIME= 11:24:31
+ The conditions for direct assembly have been met.  No .emat or .erot    
+ files will be produced.                                                 
+
+                      L O A D   S T E P   O P T I O N S
+
+   LOAD STEP NUMBER. . . . . . . . . . . . . . . .     1
+   INERTIA LOADS                        X           Y           Z 
+      ACEL . . . . . . . . . . . .  0.0000      0.0000      9.8000    
+   PRINT OUTPUT CONTROLS . . . . . . . . . . . . .NO PRINTOUT
+   DATABASE OUTPUT CONTROLS. . . . . . . . . . . .ALL DATA WRITTEN
+
+
+  BLOCK LANCZOS CALCULATION OF UP TO    1 EIGENVECTORS.
+  NUMBER OF EQUATIONS              =           66
+  MAXIMUM WAVEFRONT                =           42
+  MAXIMUM MODES STORED             =            1
+  MINIMUM EIGENVALUE               = -0.10000E+31
+  MAXIMUM EIGENVALUE               =  0.10000E+31
+  CENTER EIGENVALUE                =  0.00000E+00
+
+
+  LANCZOS CYCLE NUMBER =   1
+
+     new shift: -3.0555D-02     modes still needed:        1
+
+  EIGENVALUES AT CURRENT LANCZOS CYCLE
+     1  0.52774204E+00     2  0.70710286E+00     3  0.80418431E+00
+
+     number of steps      :     10
+     eigenvalues found    :      3
+     total no. eigenvalues:      3
+
+  LANCZOS CYCLE NUMBER =   2
+
+     new shift: -1.0497D+00     modes still needed:        1
+
+  EIGENVALUES AT CURRENT LANCZOS CYCLE
+     1 -0.10243717E+01     2  0.52774204E+00     3  0.70710286E+00
+     4  0.80418431E+00
+
+     number of steps      :      4
+     eigenvalues found    :      1
+     total no. eigenvalues:      4
+
+  LANCZOS CYCLE NUMBER =   3
+
+     new shift:  6.1742D-01     modes still needed:        0
+
+  EIGENVALUES AT CURRENT LANCZOS CYCLE
+     1 -0.10243717E+01     2  0.51788995E+00     3  0.52774204E+00
+     4  0.70710286E+00     5  0.80418431E+00
+
+     number of steps      :      5
+     eigenvalues found    :      1
+     total no. eigenvalues:      5
+1
+
+ ***** ANSYS - ENGINEERING ANALYSIS SYSTEM  RELEASE 15.0      *****
+ ANSYS Multiphysics                                
+ 20100520          VERSION=WINDOWS x64   11:24:31  DEC 22, 2022 CP=      0.297
+
+                                                                               
+
+
+  ***** EIGENVALUES (LOAD MULTIPLIERS FOR BUCKLING) *****
+            *** FROM BLOCK LANCZOS ITERATION ***
+
+      SHAPE NUMBER   LOAD MULTIPLIER
+
+            1           0.51788995    
+
+
+
+   *** ELEMENT RESULT CALCULATION TIMES
+  TYPE    NUMBER   ENAME      TOTAL CP  AVE CP
+
+     1        25  BEAM188       0.000   0.000000
+
+   *** NODAL LOAD CALCULATION TIMES
+  TYPE    NUMBER   ENAME      TOTAL CP  AVE CP
+
+     1        25  BEAM188       0.000   0.000000
+
+
+ *** ANSYS BINARY FILE STATISTICS
+  BUFFER SIZE USED= 16384
+        0.062 MB WRITTEN ON ASSEMBLED MATRIX FILE: fem1.full
+        0.062 MB WRITTEN ON MODAL MATRIX FILE: fem1.mode
+        1.125 MB WRITTEN ON RESULTS FILE: fem1.rst
+
+ FINISH SOLUTION PROCESSING
+
+
+ ***** ROUTINE COMPLETED *****  CP =         0.312
+
+
+1
+
+ ***** ANSYS - ENGINEERING ANALYSIS SYSTEM  RELEASE 15.0      *****
+ ANSYS Multiphysics                                
+ 20100520          VERSION=WINDOWS x64   11:24:31  DEC 22, 2022 CP=      0.312
+
+                                                                               
+
+
+          ***** ANSYS RESULTS INTERPRETATION (POST1) *****
+
+ *** NOTE ***                            CP =       0.312   TIME= 11:24:31
+ Reading results into the database (SET command) will update the current 
+ displacement and force boundary conditions in the database with the     
+ values from the results file for that load set.  Note that any          
+ subsequent solutions will use these values unless action is taken to    
+ either SAVE the current values or not overwrite them (/EXIT,NOSAVE).    
+
+ SORT ON ITEM=U     COMPONENT=SUM   ORDER= 0  KABS= 0  NMAX=      17
+
+ SORT COMPLETED FOR      16 VALUES.
+
+ *GET  U_MAX     FROM  SORT  ITEM=MAX        VALUE= 0.160403665    
+
+ *GET  STRESS_MAX  FROM ELEMENT      3 S    EQV  MAX    VALUE=   711727905.    
+
+   AT ELEMENT NODE I
+
+ *GET  STRESS_MIN  FROM ELEMENT     14 S    EQV  MIN    VALUE=   18002907.7    
+
+   AT ELEMENT NODE I
+
+ EXIT THE ANSYS POST1 DATABASE PROCESSOR
+
+
+ ***** ROUTINE COMPLETED *****  CP =         0.312
+
+
+1
+
+ ***** ANSYS - ENGINEERING ANALYSIS SYSTEM  RELEASE 15.0      *****
+ ANSYS Multiphysics                                
+ 20100520          VERSION=WINDOWS x64   11:24:31  DEC 22, 2022 CP=      0.312
+
+                                                                               
+
+
+          ***** ANSYS ANALYSIS DEFINITION (PREP7) *****
+   USING FILE fem1.rst 
+ THE SCALE FACTOR HAS BEEN SET TO   1.6625    
+   USING FILE fem1.rst 
+
+ *** NOTE ***                            CP =       0.312   TIME= 11:24:31
+ Some nodes do not have displacements associated with them.  They were   
+ left in their initial positions.                                        
+
+
+ ***** ROUTINE COMPLETED *****  CP =         0.312
+
+
+
+ *****  ANSYS SOLUTION ROUTINE  *****
+
+
+ PERFORM A STATIC ANALYSIS
+  THIS WILL BE A NEW ANALYSIS
+
+ *** NOTE ***                            CP =       0.312   TIME= 11:24:31
+ Some analysis options have been reset to their defaults.  Please verify 
+ current settings or respecify as required.                              
+
+ LARGE DEFORMATION ANALYSIS
+
+ USE THE ARC-LENGTH  METHOD
+
+ TERMINATE THE ANALYSIS IF THE MAXIMUM DISPLACEMENT
+  IS GREATER THAN    1.0000    
+
+
+ USE A MAXIMUM OF    30 EQUILIBRIUM ITERATIONS EACH SUBSTEP
+
+ USE    30 SUBSTEP(S) THIS LOAD STEP FOR ALL  DEGREES OF FREEDOM
+
+ WRITE ALL  ITEMS TO THE DATABASE WITH A FREQUENCY OF ALL 
+   FOR ALL APPLICABLE ENTITIES
+
+ *****  ANSYS SOLVE    COMMAND  *****
+
+ *** NOTE ***                            CP =       0.312   TIME= 11:24:31
+ There is no title defined for this analysis.                            
+
+ *** SELECTION OF ELEMENT TECHNOLOGIES FOR APPLICABLE ELEMENTS ***
+                ---GIVE SUGGESTIONS ONLY---
+
+ ELEMENT TYPE    1 IS BEAM188 . KEYOPT(1)=1 IS SUGGESTED FOR NON-CIRCULAR CROSS
+ SECTIONS AND KEYOPT(3)=2 IS ALWAYS SUGGESTED.
+
+ ELEMENT TYPE    1 IS BEAM188 . KEYOPT(15) IS ALREADY SET AS SUGGESTED.
+
+
+1
+
+ ***** ANSYS - ENGINEERING ANALYSIS SYSTEM  RELEASE 15.0      *****
+ ANSYS Multiphysics                                
+ 20100520          VERSION=WINDOWS x64   11:24:31  DEC 22, 2022 CP=      0.312
+
+                                                                               
+
+
+                       S O L U T I O N   O P T I O N S
+
+   PROBLEM DIMENSIONALITY. . . . . . . . . . . . .3-D                  
+   DEGREES OF FREEDOM. . . . . . UX   UY   UZ   ROTX ROTY ROTZ
+   ANALYSIS TYPE . . . . . . . . . . . . . . . . .STATIC (STEADY-STATE)
+   NONLINEAR GEOMETRIC EFFECTS . . . . . . . . . .ON
+   NEWTON-RAPHSON OPTION . . . . . . . . . . . . .PROGRAM CHOSEN   
+   GLOBALLY ASSEMBLED MATRIX . . . . . . . . . . .SYMMETRIC  
+
+ *** NOTE ***                            CP =       0.312   TIME= 11:24:31
+ Present time 0 is less than or equal to the previous time.  Time will   
+ default to 1.                                                           
+
+ *** NOTE ***                            CP =       0.312   TIME= 11:24:31
+ This nonlinear analysis defaults to using the full Newton-Raphson       
+ solution procedure.  This can be modified using the NROPT command.      
+
+ SOLCONTROL,ON uses sparse matrix direct solver
+
+ *** NOTE ***                            CP =       0.312   TIME= 11:24:31
+ The conditions for direct assembly have been met.  No .emat or .erot    
+ files will be produced.                                                 
+
+ *** WARNING ***                         CP =       0.312   TIME= 11:24:31
+ The auto time stepping (AUTOTS,ON command) does not support arc-length  
+ method.  The auto time stepping has been turned off.                    
+
+                      L O A D   S T E P   O P T I O N S
+
+   LOAD STEP NUMBER. . . . . . . . . . . . . . . .     1
+   TIME AT END OF THE LOAD STEP. . . . . . . . . .  1.0000    
+   NUMBER OF SUBSTEPS. . . . . . . . . . . . . . .    30
+   MAXIMUM NUMBER OF EQUILIBRIUM ITERATIONS. . . .    30
+   ARC-LENGTH . . . . .  . . . . . . . . . . . . .    ON
+   STEP CHANGE BOUNDARY CONDITIONS . . . . . . . .    NO
+   STRESS-STIFFENING . . . . . . . . . . . . . . .    ON
+   TERMINATE ANALYSIS IF NOT CONVERGED . . . . . .YES (EXIT)  
+   CONVERGENCE CONTROLS. . . . . . . . . . . . . .USE DEFAULTS
+   INERTIA LOADS                        X           Y           Z 
+      ACEL . . . . . . . . . . . .  0.0000      0.0000      9.8000    
+   PRINT OUTPUT CONTROLS . . . . . . . . . . . . .NO PRINTOUT
+   DATABASE OUTPUT CONTROLS
+      ITEM     FREQUENCY   COMPONENT
+       ALL        ALL               
+
+
+ SOLUTION MONITORING INFO IS WRITTEN TO FILE= fem1.mntr                                                                                                                                                                                                                                                           
+
+ *** NOTE ***                            CP =       0.328   TIME= 11:24:31
+ Predictor is ON by default for structural elements with rotational      
+ degrees of freedom.  Use the PRED,OFF command to turn the predictor     
+ OFF if it adversely affects the convergence.                            
+
+
+
+                         ***********  PRECISE MASS SUMMARY  ***********
+
+   TOTAL RIGID BODY MASS MATRIX ABOUT ORIGIN
+               Translational mass               |   Coupled translational/rotational mass
+         30401.        0.0000        0.0000     |     0.0000       0.38423E+06   0.65422E-05
+         0.0000        30401.        0.0000     |   -0.38423E+06    0.0000        3.8657    
+         0.0000        0.0000        30401.     |   -0.65422E-05   -3.8657        0.0000    
+     ------------------------------------------ | ------------------------------------------
+                                                |         Rotational mass (inertia)
+                                                |    0.15201E+08  -0.58005E-05   -93.840    
+                                                |   -0.58003E-05   0.15201E+08   0.17739E-03
+                                                |    -93.840       0.17739E-03   0.18274E+08
+
+   TOTAL MASS =  30401.    
+     The mass principal axes coincide with the global Cartesian axes
+
+   CENTER OF MASS (X,Y,Z)=   0.12716E-03  -0.21519E-09    12.638    
+
+   TOTAL INERTIA ABOUT CENTER OF MASS
+        0.10345E+08  -0.58013E-05   -44.984    
+       -0.58013E-05   0.10345E+08   0.94706E-04
+        -44.984       0.94706E-04   0.18274E+08
+     The inertia principal axes coincide with the global Cartesian axes
+
+
+  *** MASS SUMMARY BY ELEMENT TYPE ***
+
+  TYPE      MASS
+     1   30401.4    
+
+ Range of element maximum matrix coefficients in global coordinates
+ Maximum = 133204777 at element 6.                                       
+ Minimum = 3416001.84 at element 23.                                     
+
+   *** ELEMENT MATRIX FORMULATION TIMES
+  TYPE    NUMBER   ENAME      TOTAL CP  AVE CP
+
+     1        25  BEAM188       0.000   0.000000
+ Time at end of element matrix formulation CP = 0.34375.                 
+
+ ALL CURRENT ANSYS DATA WRITTEN TO FILE NAME= fem1.rdb
+  FOR POSSIBLE RESUME FROM THIS POINT
+     FORCE CONVERGENCE VALUE  = 0.1539E+06  CRITERION=  785.2    
+     MOMENT CONVERGENCE VALUE = 0.1234E-07  CRITERION=  1286.    
+
+ SPARSE MATRIX DIRECT SOLVER.
+  Number of equations =          66,    Maximum wavefront =     42
+  Memory allocated for solver =                 15.259 MB
+  Memory required for in-core =                  0.057 MB
+  Optimal memory required for out-of-core =      0.049 MB
+  Minimum memory required for out-of-core =      0.046 MB
+
+ *** NOTE ***                            CP =       0.344   TIME= 11:24:31
+ The Sparse Matrix solver is currently running in the in-core memory     
+ mode.  This memory mode uses the most amount of memory in order to      
+ avoid using the hard drive as much as possible, which most often        
+ results in the fastest solution time.  This mode is recommended if      
+ enough physical memory is present to accommodate all of the solver      
+ data.                                                                   
+ Sparse solver maximum pivot= 229246129 at node 1 UX.                    
+ Sparse solver minimum pivot= 11161.5185 at node 15 ROTZ.                
+ Sparse solver minimum pivot in absolute value= 11161.5185 at node 15    
+ ROTZ.                                                                   
+     ARCLEN NEW TIME =  0.33333E-01 ARC-LENGTH =  0.97435E-02
+    EQUIL ITER   1 COMPLETED.  NEW TRIANG MATRIX.  MAX DOF INC= -0.4746E-02
+     FORCE CONVERGENCE VALUE  =  393.0      CRITERION=  1379.     <<< CONVERGED
+     MOMENT CONVERGENCE VALUE =  2.120      CRITERION=  2259.     <<< CONVERGED
+    >>> SOLUTION CONVERGED AFTER EQUILIBRIUM ITERATION   1
+
+   *** ELEMENT RESULT CALCULATION TIMES
+  TYPE    NUMBER   ENAME      TOTAL CP  AVE CP
+
+     1        25  BEAM188       0.000   0.000000
+
+   *** NODAL LOAD CALCULATION TIMES
+  TYPE    NUMBER   ENAME      TOTAL CP  AVE CP
+
+     1        25  BEAM188       0.000   0.000000
+ *** LOAD STEP     1   SUBSTEP     1  COMPLETED.    CUM ITER =      1
+ *** TIME =  0.333333E-01  TIME INC =  0.333333E-01  MAX DISPLACEMENT =   -0.4746E-02
+
+     FORCE CONVERGENCE VALUE  = 0.1540E+06  CRITERION=  1917.    
+     MOMENT CONVERGENCE VALUE =  2.120      CRITERION=  3141.    
+     ARCLEN NEW TIME =  0.66667E-01 ARC-LENGTH =  0.97435E-02
+    EQUIL ITER   1 COMPLETED.  NEW TRIANG MATRIX.  MAX DOF INC= -0.4778E-02
+     FORCE CONVERGENCE VALUE  =  390.5      CRITERION=  2759.     <<< CONVERGED
+     MOMENT CONVERGENCE VALUE =  2.722      CRITERION=  4519.     <<< CONVERGED
+    >>> SOLUTION CONVERGED AFTER EQUILIBRIUM ITERATION   1
+ *** LOAD STEP     1   SUBSTEP     2  COMPLETED.    CUM ITER =      2
+ *** TIME =  0.666667E-01  TIME INC =  0.498462E-01  MAX DISPLACEMENT =   -0.9524E-02
+
+     FORCE CONVERGENCE VALUE  =  128.2      CRITERION=  4727.    
+     MOMENT CONVERGENCE VALUE =  3.894      CRITERION=  7742.    
+     ARCLEN NEW TIME =  0.11652     ARC-LENGTH =  0.20733E-01
+    EQUIL ITER   1 COMPLETED.  NEW TRIANG MATRIX.  MAX DOF INC=  0.3274E-04
+     FORCE CONVERGENCE VALUE  = 0.3902E-01  CRITERION=  4823.     <<< CONVERGED
+     MOMENT CONVERGENCE VALUE = 0.5312      CRITERION=  7900.     <<< CONVERGED
+    >>> SOLUTION CONVERGED AFTER EQUILIBRIUM ITERATION   1
+ *** LOAD STEP     1   SUBSTEP     3  COMPLETED.    CUM ITER =      3
+ *** TIME =  0.116516      TIME INC =  0.746307E-01  MAX DISPLACEMENT =   -0.1672E-01
+
+     FORCE CONVERGENCE VALUE  =  1057.      CRITERION=  7754.    
+     MOMENT CONVERGENCE VALUE =  5.338      CRITERION= 0.1270E+05
+     ARCLEN NEW TIME =  0.19105     ARC-LENGTH =  0.31100E-01
+    EQUIL ITER   1 COMPLETED.  NEW TRIANG MATRIX.  MAX DOF INC=  0.2936E-04
+     FORCE CONVERGENCE VALUE  =  1.703      CRITERION=  7910.     <<< CONVERGED
+     MOMENT CONVERGENCE VALUE = 0.7492      CRITERION= 0.1296E+05 <<< CONVERGED
+    >>> SOLUTION CONVERGED AFTER EQUILIBRIUM ITERATION   1
+ *** LOAD STEP     1   SUBSTEP     4  COMPLETED.    CUM ITER =      4
+ *** TIME =  0.191053      TIME INC =  0.111714      MAX DISPLACEMENT =   -0.2755E-01
+
+     FORCE CONVERGENCE VALUE  =  6619.      CRITERION= 0.1228E+05
+     MOMENT CONVERGENCE VALUE =  35.38      CRITERION= 0.2012E+05
+     ARCLEN NEW TIME =  0.30222     ARC-LENGTH =  0.46650E-01
+    EQUIL ITER   1 COMPLETED.  NEW TRIANG MATRIX.  MAX DOF INC= -0.9327E-04
+     FORCE CONVERGENCE VALUE  =  15.91      CRITERION= 0.1252E+05 <<< CONVERGED
+     MOMENT CONVERGENCE VALUE = 0.6467      CRITERION= 0.2050E+05 <<< CONVERGED
+    >>> SOLUTION CONVERGED AFTER EQUILIBRIUM ITERATION   1
+ *** LOAD STEP     1   SUBSTEP     5  COMPLETED.    CUM ITER =      5
+ *** TIME =  0.302221      TIME INC =  0.165650      MAX DISPLACEMENT =   -0.4390E-01
+
+     FORCE CONVERGENCE VALUE  =  4520.      CRITERION= 0.1899E+05
+     MOMENT CONVERGENCE VALUE =  22.90      CRITERION= 0.3111E+05
+     ARCLEN NEW TIME =  0.46754     ARC-LENGTH =  0.69979E-01
+    EQUIL ITER   1 COMPLETED.  NEW TRIANG MATRIX.  MAX DOF INC=  0.1279E-03
+     FORCE CONVERGENCE VALUE  =  15.15      CRITERION= 0.1937E+05 <<< CONVERGED
+     MOMENT CONVERGENCE VALUE =  7.053      CRITERION= 0.3173E+05 <<< CONVERGED
+    >>> SOLUTION CONVERGED AFTER EQUILIBRIUM ITERATION   1
+ *** LOAD STEP     1   SUBSTEP     6  COMPLETED.    CUM ITER =      6
+ *** TIME =  0.467536      TIME INC =  0.245703      MAX DISPLACEMENT =   -0.6868E-01
+
+     FORCE CONVERGENCE VALUE  = 0.1363E+05  CRITERION= 0.2897E+05
+     MOMENT CONVERGENCE VALUE =  89.58      CRITERION= 0.4745E+05
+
+ *** WARNING ***                         CP =       0.422   TIME= 11:24:31
+ One indefinite tangent matrix is detected for TIME = 0.713238387.       
+ Previous converged TIME is = 0.467535758.                               
+     ARCLEN NEW TIME =  0.71227     ARC-LENGTH =  0.10498    
+    EQUIL ITER   1 COMPLETED.  NEW TRIANG MATRIX.  MAX DOF INC= -0.3803E-03
+     FORCE CONVERGENCE VALUE  =  66.02      CRITERION= 0.2954E+05 <<< CONVERGED
+     MOMENT CONVERGENCE VALUE =  31.08      CRITERION= 0.4838E+05 <<< CONVERGED
+    >>> SOLUTION CONVERGED AFTER EQUILIBRIUM ITERATION   1
+ *** LOAD STEP     1   SUBSTEP     7  COMPLETED.    CUM ITER =      7
+ *** TIME =  0.712272      TIME INC =  0.245703      MAX DISPLACEMENT =   -0.1064    
+
+     FORCE CONVERGENCE VALUE  = 0.6397E+05  CRITERION= 0.3889E+05
+     MOMENT CONVERGENCE VALUE =  323.7      CRITERION= 0.6370E+05
+     ARCLEN NEW TIME =  0.95454     ARC-LENGTH =  0.16253    
+    EQUIL ITER   1 COMPLETED.  NEW TRIANG MATRIX.  MAX DOF INC= -0.1137E-02
+     FORCE CONVERGENCE VALUE  =  325.7      CRITERION= 0.3961E+05 <<< CONVERGED
+     MOMENT CONVERGENCE VALUE =  53.80      CRITERION= 0.6489E+05 <<< CONVERGED
+    >>> SOLUTION CONVERGED AFTER EQUILIBRIUM ITERATION   1
+ *** LOAD STEP     1   SUBSTEP     8  COMPLETED.    CUM ITER =      8
+ *** TIME =  0.954544      TIME INC =  0.454558E-01  MAX DISPLACEMENT =   -0.1451    
+
+     FORCE CONVERGENCE VALUE  = 0.4918E+06  CRITERION= 0.3870E+05
+     MOMENT CONVERGENCE VALUE =  2077.      CRITERION= 0.6339E+05
+     ARCLEN NEW TIME =  0.99264     ARC-LENGTH =  0.17944E-01
+    EQUIL ITER   1 COMPLETED.  NEW TRIANG MATRIX.  MAX DOF INC= -0.6615E-02
+     FORCE CONVERGENCE VALUE  =  946.4      CRITERION= 0.4120E+05 <<< CONVERGED
+     MOMENT CONVERGENCE VALUE =  447.7      CRITERION= 0.6749E+05 <<< CONVERGED
+    >>> SOLUTION CONVERGED AFTER EQUILIBRIUM ITERATION   1
+ *** LOAD STEP     1   SUBSTEP     9  COMPLETED.    CUM ITER =      9
+ *** TIME =  0.992639      TIME INC =  0.736147E-02  MAX DISPLACEMENT =   -0.1514    
+
+     FORCE CONVERGENCE VALUE  = 0.3837E+06  CRITERION= 0.4296E+05
+     MOMENT CONVERGENCE VALUE =  2906.      CRITERION= 0.7037E+05
+     ARCLEN NEW TIME =   1.0000     ARC-LENGTH =  0.16313E-01
+    EQUIL ITER   1 COMPLETED.  NEW TRIANG MATRIX.  MAX DOF INC=  0.1392E-01
+     FORCE CONVERGENCE VALUE  =  4493.      CRITERION= 0.4150E+05 <<< CONVERGED
+     MOMENT CONVERGENCE VALUE =  1705.      CRITERION= 0.6797E+05 <<< CONVERGED
+    >>> SOLUTION CONVERGED AFTER EQUILIBRIUM ITERATION   1
+ *** LOAD STEP     1   SUBSTEP    10  COMPLETED.    CUM ITER =     10
+ *** TIME =   1.00000      TIME INC = -0.196294E-01  MAX DISPLACEMENT =   -0.1524    
+
+ *** NOTE ***                            CP =       0.469   TIME= 11:24:31
+ Maximum load for load step 1 was reached.                               
+
+
+ *** ANSYS BINARY FILE STATISTICS
+  BUFFER SIZE USED= 16384
+        0.875 MB WRITTEN ON ELEMENT SAVED DATA FILE: fem1.esav
+        0.062 MB WRITTEN ON ASSEMBLED MATRIX FILE: fem1.full
+        4.500 MB WRITTEN ON RESULTS FILE: fem1.rst
+
+ FINISH SOLUTION PROCESSING
+
+
+ ***** ROUTINE COMPLETED *****  CP =         0.484
+
+
+1
+
+ ***** ANSYS - ENGINEERING ANALYSIS SYSTEM  RELEASE 15.0      *****
+ ANSYS Multiphysics                                
+ 20100520          VERSION=WINDOWS x64   11:24:31  DEC 22, 2022 CP=      0.484
+
+                                                                               
+
+
+
+          ***** TIME-HISTORY POSTPROCESSOR (POST26) *****
+
+ ALL POST26 SPECIFICATIONS ARE RESET TO INITIAL DEFAULTS
+
+ *** WARNING ***                         CP =       0.484   TIME= 11:24:31
+ No data points are saved during this storage step.                      
+
+ VARIABLE  2  IS AT NODE       1  ITEM= U    COMP= Z     NAME= UZ      
+
+ STORAGE COMPLETE FOR     10 DATA POINTS 
+
+         SUMMARY OF VARIABLES STORED THIS STEP AND EXTREME VALUES
+ VARI TYPE    IDENTIFIERS   NAME     MINIMUM    AT TIME    MAXIMUM   AT TIME
+
+   2 NSOL     1 UZ        UZ        0.3164E-02 0.3333E-01 0.1029      1.000    
+
+ VARIABLE   3
+      IS (  1000.0    ,  0.0000    )  TIMES VARIABLE   2
+   TIMES (  0.0000    ,  0.0000    )  TIMES VARIABLE   0
+   TIMES (  0.0000    ,  0.0000    )  TIMES VARIABLE   0
+ RESULT VARIABLE NAME = 3       
+
+ VARIABLE   4
+      IS (  30.000    ,  0.0000    )  TIMES VARIABLE   1
+   TIMES (  0.0000    ,  0.0000    )  TIMES VARIABLE   0
+   TIMES (  0.0000    ,  0.0000    )  TIMES VARIABLE   0
+ RESULT VARIABLE NAME = 4       
+
+ X AXIS LABEL = Uz(mm)                          
+
+ Y AXIS LABEL = K                               
+
+ X VARIABLE=  3
+
+ *** NOTE *** Display device has not yet been specified with the /SHOW command.  Display commands ignored. 
+
+ *GET  NUM_IT    FROM  VARI      4  ITEM=NSET       VALUE=  10.0000000    
+
+ *DO LOOP ON PARAMETER= I FROM  1.0000     TO  9.0000     BY  1.0000    
+
+ *GET  K1        FROM  VARI      4  ITEM=RSET I     VALUE=  1.00000000    
+
+ *GET  K2        FROM  VARI      4  ITEM=RSET I+1   VALUE=  2.00000000    
+
+ *IF  K1                                ( =   1.00000     )  GT  
+      K2                                ( =   2.00000     )  THEN    
+
+ *ELSE
+
+ PARAMETER STAB_EFF =     2.000000000    
+
+ *ENDIF
+
+ *ENDDO  INDEX= I                               
+
+
+ ***** ROUTINE COMPLETED *****  CP =         0.484
+
+
+
+ OPENED FILE= output.txt FOR COMMAND FILE DATA 
+
+
+  COMMAND FILE CLOSED 
+
+
+ ***** END OF INPUT ENCOUNTERED *****
+
+ PURGE ALL SOLUTION AND POST DATA
+ SAVE ALL MODEL DATA
+
+ ALL CURRENT ANSYS DATA WRITTEN TO FILE NAME= fem1.db
+  FOR POSSIBLE RESUME FROM THIS POINT
+
+
+ NUMBER OF WARNING MESSAGES ENCOUNTERED=          3
+ NUMBER OF ERROR   MESSAGES ENCOUNTERED=          0
+
++--------------------- A N S Y S   S T A T I S T I C S ------------------------+
+
+Release: 15.0       Build: UP20131014   Platform: WINDOWS x64 
+Date Run: 12/22/2022   Time: 11:24
+Windows Process ID:         5976
+
+Processor Model: 12th Gen Intel(R) Core(TM) i7-12700F
+
+Compiler: Intel(R) FORTRAN Compiler Version 12.1.0  (Build: 20120928)
+          Microsoft(R) Visual C/C++ Compiler Version 16.0  (Build: 40219)
+          Intel(R) Math Kernel Library Version 11.0.5 Product Build 20130612
+
+Total number of cores available    :   20
+Number of physical cores available :   12
+Number of cores requested          :    2 (Shared Memory Parallel)
+
+GPU Acceleration: Not Requested
+
+Job Name: fem1
+Working Directory: D:\SOFTWARE\ANSYS\dome_1
+
+Total CPU time for main thread                    :        0.4 seconds
+Total CPU time summed for all threads             :        0.5 seconds
+
+Elapsed time spent pre-processing model (/PREP7)  :        0.2 seconds
+Elapsed time spent solution - preprocessing       :        0.0 seconds
+Elapsed time spent computing solution             :        0.3 seconds
+Elapsed time spent solution - postprocessing      :        0.0 seconds
+Elapsed time spent post-processing model (/POST1) :        0.0 seconds
+Elapsed time spent post-processing model (/POST26):        0.0 seconds
+
+Maximum total memory used                         :       26.0 MB
+Maximum total memory allocated                    :     1088.0 MB
+Maximum total memory available                    :         16 GB
+
++------------------ E N D   A N S Y S   S T A T I S T I C S -------------------+
+
+
+ *---------------------------------------------------------------------------*
+ |                                                                           |
+ |                            ANSYS RUN COMPLETED                            |
+ |                                                                           |
+ |---------------------------------------------------------------------------|
+ |                                                                           |
+ |            Release 15.0           UP20131014         WINDOWS x64          |
+ |                                                                           |
+ |---------------------------------------------------------------------------|
+ |                                                                           |
+ | Database Requested(-db)   512 MB    Scratch Memory Requested       512 MB |
+ | Maximum Database Used       2 MB    Maximum Scratch Memory Used     24 MB |
+ |                                                                           |
+ |---------------------------------------------------------------------------|
+ |                                                                           |
+ |        CP Time      (sec) =          0.484       Time  =  11:24:31        |
+ |        Elapsed Time (sec) =          2.000       Date  =  12/22/2022      |
+ |                                                                           |
+ *---------------------------------------------------------------------------*
