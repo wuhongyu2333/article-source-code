@@ -8,5 +8,5 @@ The codes includes three basic numerical examples: 10-bar truss, lamella dome an
 To run the codes,you need:
 1.MATLAB(better R2018a);
 2.ANSYS Mechanical APDL 15.0;
-These codes are uploaded for references of beginners, if any questions or suggestions, welcome to email:904347574@qq.com, if it is useful for you, please star me.
+These codes are uploaded for references of beginners, if any questions or suggestions, welcome to email:904347574@qq.com. if it is useful for you, please star me.
 Thank you.
